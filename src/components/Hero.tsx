@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import BackgroundTransition from './BackgroundTransition';
 
 const Hero = () => {
@@ -58,16 +59,18 @@ const Hero = () => {
               ))}
             </div>
 
-            <motion.button 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2, duration: 0.8 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 bg-white text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-colors"
-            >
-              Explore Packages <ChevronRight className="w-4 h-4" />
-            </motion.button>
+            <Link to="/trips">
+              <motion.button 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2, duration: 0.8 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-2 bg-white text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-colors"
+              >
+                Explore Packages <ChevronRight className="w-4 h-4" />
+              </motion.button>
+            </Link>
           </div>
         </div>
       </div>

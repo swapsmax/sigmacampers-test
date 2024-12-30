@@ -1,8 +1,22 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, ArrowRight } from 'lucide-react';
 
 const Contact = () => {
+  const navigate = useNavigate();
+
+  const handleBookingClick = () => {
+    // Navigate to home page and scroll to contact section
+    navigate('/');
+    setTimeout(() => {
+      const contactSection = document.getElementById('contact-form');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100); // Small delay to ensure navigation completes
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
@@ -10,6 +24,8 @@ const Contact = () => {
 
   return (
     <div>
+
+      {/* Existing Contact Section */}
       <section className="relative pt-24 md:pt-20 pb-32 px-6" id="contact">
         <div className="absolute inset-0 z-0">
           <img
@@ -33,6 +49,22 @@ const Contact = () => {
             <p className="text-gray-200 text-lg max-w-2xl mx-auto">
               Have questions about our Nagaland tours? We'd love to hear from you!
             </p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 mb-16">
+            <h2 className="text-2xl md:text-3xl font-light mb-4">
+              Looking to <span className="italic">book</span> a trip?
+            </h2>
+            <p className="text-gray-600 mb-6">
+              If you're ready to plan your Nagaland adventure and want to check package availability and pricing, 
+              use our dedicated booking form instead.
+            </p>
+            <button 
+              onClick={handleBookingClick}
+              className="w-full md:w-auto inline-flex items-center justify-center gap-2 bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-900 transition-colors"
+            >
+              Go to Booking Form <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">

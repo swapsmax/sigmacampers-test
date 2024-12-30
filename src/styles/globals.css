@@ -29,4 +29,51 @@
   .min-h-screen {
     min-height: -webkit-fill-available;
   }
+}
+
+/* Hide all default date input elements */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
+/* Hide all parts of the date format */
+input[type="date"]::-webkit-datetime-edit { opacity: 0; }
+input[type="date"]::-webkit-datetime-edit-fields-wrapper { opacity: 0; }
+input[type="date"]::-webkit-datetime-edit-text { opacity: 0; }
+input[type="date"]::-webkit-datetime-edit-month-field { opacity: 0; }
+input[type="date"]::-webkit-datetime-edit-day-field { opacity: 0; }
+input[type="date"]::-webkit-datetime-edit-year-field { opacity: 0; }
+
+/* Show the date only when it's selected */
+input[type="date"]:valid::-webkit-datetime-edit,
+input[type="date"]:valid::-webkit-datetime-edit-fields-wrapper,
+input[type="date"]:valid::-webkit-datetime-edit-text,
+input[type="date"]:valid::-webkit-datetime-edit-month-field,
+input[type="date"]:valid::-webkit-datetime-edit-day-field,
+input[type="date"]:valid::-webkit-datetime-edit-year-field {
+  opacity: 1;
+  color: #000;
+}
+
+/* Hide placeholder when date is selected */
+input[type="date"]:valid + span .date-placeholder {
+  display: none;
+}
+
+/* Firefox specific styles */
+input[type="date"] {
+  color: transparent;
+}
+
+input[type="date"]:valid {
+  color: #000;
 } 

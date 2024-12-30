@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const packages = [
   {
@@ -45,9 +46,11 @@ const Packages = () => {
               <div className="p-6">
                 <h3 className="text-xl font-medium mb-3">{pkg.title}</h3>
                 <p className="text-gray-600 mb-6 line-clamp-3">{pkg.description}</p>
-                <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-900 transition-colors">
-                  Learn More
-                </button>
+                <Link to="/trips" className="block">
+                  <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-900 transition-colors">
+                    Learn More
+                  </button>
+                </Link>
               </div>
             </div>
           ))}

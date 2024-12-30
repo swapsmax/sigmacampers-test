@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import { Plane } from 'lucide-react';
 import BackgroundTransition from '../components/BackgroundTransition';
@@ -48,8 +49,21 @@ style.textContent = `
 document.head.appendChild(style);
 
 const Trips = () => {
+  const navigate = useNavigate();
   const [selectedTrip, setSelectedTrip] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Add mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is standard md breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -66,6 +80,17 @@ const Trips = () => {
     } else {
       setSelectedTrip(tripId);
     }
+  };
+
+  const handleBooking = () => {
+    // Navigate to home page and scroll to contact section
+    navigate('/');
+    setTimeout(() => {
+      const contactSection = document.getElementById('contact-form');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100); // Small delay to ensure navigation completes
   };
 
   const trips = [
@@ -211,89 +236,173 @@ const Trips = () => {
               ))}
             </motion.div>
 
-            {/* Selected Trip Details */}
+            {/* Selected Trip Details - Now with mobile-specific handling */}
             <AnimatePresence mode="sync">
               {selectedTrip && (
-                <motion.div 
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ 
-                    duration: 0.5,
-                    ease: "easeInOut"
-                  }}
-                  className="mt-12"
-                >
-                  <motion.div 
-                    layout
-                    className="bg-white/95 backdrop-blur-sm border border-white/50 rounded-xl shadow-lg"
-                  >
-                    <AnimatePresence mode="wait">
-                      {trips.map(trip => (
-                        trip.id === selectedTrip && (
-                          <motion.div
-                            key={trip.id}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <div className="grid md:grid-cols-2">
-                              {/* Left Column - Image */}
-                              <div className="relative h-[400px] md:h-auto">
-                                <img
-                                  src={trip.image}
-                                  alt={trip.title}
-                                  className="w-full h-full object-cover rounded-t-xl md:rounded-l-xl md:rounded-tr-none"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                                <div className="absolute bottom-0 left-0 right-0 p-6">
-                                  <p className="text-white/80 text-sm mb-2">{trip.duration}</p>
-                                  <p className="text-white text-3xl font-medium">{trip.price}</p>
-                                </div>
-                              </div>
+                <>
+                  {/* Desktop View - Remains unchanged */}
+                  {!isMobile && (
+                    <motion.div 
+                      layout
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 20 }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                      className="mt-12 hidden md:block"
+                    >
+                      <motion.div 
+                        layout
+                        className="bg-white/95 backdrop-blur-sm border border-white/50 rounded-xl shadow-lg"
+                      >
+                        <AnimatePresence mode="wait">
+                          {trips.map(trip => (
+                            trip.id === selectedTrip && (
+                              <motion.div
+                                key={trip.id}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                <div className="grid md:grid-cols-2">
+                                  {/* Left Column - Image */}
+                                  <div className="relative h-[400px] md:h-auto">
+                                    <img
+                                      src={trip.image}
+                                      alt={trip.title}
+                                      className="w-full h-full object-cover rounded-t-xl md:rounded-l-xl md:rounded-tr-none"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                                      <p className="text-white/80 text-sm mb-2">{trip.duration}</p>
+                                      <p className="text-white text-3xl font-medium">{trip.price}</p>
+                                    </div>
+                                  </div>
 
-                              {/* Right Column - Content */}
-                              <div className="p-8 space-y-6">
-                                <div className="flex justify-between items-start">
-                                  <h3 className="text-3xl font-medium text-gray-900">{trip.title}</h3>
-                                  <button 
-                                    onClick={handleClose}
-                                    className="text-gray-500 hover:text-gray-900 transition-colors p-2 hover:bg-gray-100 rounded-full"
-                                  >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                  </button>
-                                </div>
+                                  {/* Right Column - Content */}
+                                  <div className="p-8 space-y-6">
+                                    <div className="flex justify-between items-start">
+                                      <h3 className="text-3xl font-medium text-gray-900">{trip.title}</h3>
+                                      <button 
+                                        onClick={handleClose}
+                                        className="text-gray-500 hover:text-gray-900 transition-colors p-2 hover:bg-gray-100 rounded-full"
+                                      >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                      </button>
+                                    </div>
 
-                                <div className="prose prose-lg max-w-none">
-                                  <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                                    {trip.description}
-                                  </p>
-                                  <div className="space-y-4">
-                                    {trip.fullDescription.split('\n\n').map((section, index) => (
-                                      <p key={index} className="text-gray-600">
-                                        {section.trim()}
+                                    <div className="prose prose-lg max-w-none">
+                                      <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                                        {trip.description}
                                       </p>
-                                    ))}
+                                      <div className="space-y-4">
+                                        {trip.fullDescription.split('\n\n').map((section, index) => (
+                                          <p key={index} className="text-gray-600">
+                                            {section.trim()}
+                                          </p>
+                                        ))}
+                                      </div>
+                                    </div>
+
+                                    <div className="pt-6 border-t border-gray-200">
+                                      <button 
+                                        onClick={handleBooking}
+                                        className="w-full px-6 py-4 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors text-lg font-medium"
+                                      >
+                                        Book This Trip
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
+                              </motion.div>
+                            )
+                          ))}
+                        </AnimatePresence>
+                      </motion.div>
+                    </motion.div>
+                  )}
 
-                                <div className="pt-6 border-t border-gray-200">
-                                  <button className="w-full px-6 py-4 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors text-lg font-medium">
-                                    Book This Trip
-                                  </button>
+                  {/* Mobile View - Full Screen Modal */}
+                  {isMobile && (
+                    <motion.div
+                      initial={{ opacity: 0, y: "100%" }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: "100%" }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="fixed inset-0 z-[100] bg-white overflow-y-auto md:hidden"
+                    >
+                      {trips.map(trip => (
+                        trip.id === selectedTrip && (
+                          <div key={trip.id} className="min-h-screen relative">
+                            {/* Content sections */}
+                            <div className="relative h-72">
+                              <img
+                                src={trip.image}
+                                alt={trip.title}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                              <div className="absolute bottom-0 left-0 right-0 p-6">
+                                <p className="text-white/80 text-sm mb-2">{trip.duration}</p>
+                                <p className="text-white text-3xl font-medium">{trip.price}</p>
+                              </div>
+                            </div>
+
+                            {/* Content Section */}
+                            <div className="p-6 space-y-6 pb-32">
+                              <h3 className="text-2xl font-medium text-gray-900">{trip.title}</h3>
+                              <div className="prose prose-sm max-w-none">
+                                <p className="text-gray-600 leading-relaxed mb-6">
+                                  {trip.description}
+                                </p>
+                                <div className="space-y-4">
+                                  {trip.fullDescription.split('\n\n').map((section, index) => (
+                                    <p key={index} className="text-gray-600">
+                                      {section.trim()}
+                                    </p>
+                                  ))}
                                 </div>
                               </div>
                             </div>
-                          </motion.div>
+
+                            {/* Bottom Navigation Bar - Updated with circular back button */}
+                            <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-gray-200 p-4 z-[101]">
+                              <div className="flex gap-4 items-center">
+                                <button 
+                                  onClick={handleClose}
+                                  className="w-14 h-14 flex items-center justify-center bg-white text-black border-2 border-black rounded-full hover:bg-gray-50 transition-colors"
+                                >
+                                  <svg 
+                                    xmlns="http://www.w3.org/2000/svg" 
+                                    className="h-6 w-6" 
+                                    fill="none" 
+                                    viewBox="0 0 24 24" 
+                                    stroke="currentColor"
+                                  >
+                                    <path 
+                                      strokeLinecap="round" 
+                                      strokeLinejoin="round" 
+                                      strokeWidth={2} 
+                                      d="M15 19l-7-7 7-7" 
+                                    />
+                                  </svg>
+                                </button>
+                                <button 
+                                  onClick={handleBooking}
+                                  className="flex-1 px-6 py-4 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors text-lg font-medium"
+                                >
+                                  Book This Trip
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         )
                       ))}
-                    </AnimatePresence>
-                  </motion.div>
-                </motion.div>
+                    </motion.div>
+                  )}
+                </>
               )}
             </AnimatePresence>
           </motion.div>
@@ -315,26 +424,32 @@ const Trips = () => {
               </p>
             </div>
 
-            <div className="bg-black/40 backdrop-blur-md rounded-lg shadow-lg p-8 border border-white/20">
+            <div className="bg-black/40 backdrop-blur-md rounded-lg shadow-lg p-6 md:p-8 border border-white/20">
               <h3 className="text-xl font-medium mb-6 text-white">Travel Steps:</h3>
-              <div className="space-y-6">
-                <div className="flex items-start bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/10 hover:bg-white/20 transition-all duration-300">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-black text-sm font-medium mr-4 shadow-lg">1</span>
-                  <div>
+              <div className="space-y-4 md:space-y-6">
+                <div className="flex items-start bg-white/10 backdrop-blur-md rounded-lg p-4 md:p-6 border border-white/10 hover:bg-white/20 transition-all duration-300">
+                  <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center shadow-lg">
+                    <span className="text-black text-sm md:text-base font-medium">1</span>
+                  </div>
+                  <div className="ml-4">
                     <h4 className="font-medium mb-2 text-white/90">Fly to Kolkata or Delhi</h4>
-                    <p className="text-white/80">Numerous airlines operate frequent flights from various international destinations to these cities.</p>
+                    <p className="text-white/80 text-sm md:text-base">Numerous airlines operate frequent flights from various international destinations to these cities.</p>
                   </div>
                 </div>
-                <div className="flex items-start bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/10 hover:bg-white/20 transition-all duration-300">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-black text-sm font-medium mr-4 shadow-lg">2</span>
-                  <div>
+
+                <div className="flex items-start bg-white/10 backdrop-blur-md rounded-lg p-4 md:p-6 border border-white/10 hover:bg-white/20 transition-all duration-300">
+                  <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center shadow-lg">
+                    <span className="text-black text-sm md:text-base font-medium">2</span>
+                  </div>
+                  <div className="ml-4">
                     <h4 className="font-medium mb-2 text-white/90">Domestic Flight to Dimapur</h4>
-                    <p className="text-white/80">Book a direct flight from Kolkata or Delhi to Dimapur. Airlines like IndiGo and Air India offer convenient options.</p>
+                    <p className="text-white/80 text-sm md:text-base">Book a direct flight from Kolkata or Delhi to Dimapur. Airlines like IndiGo and Air India offer convenient options.</p>
                   </div>
                 </div>
               </div>
+
               <div className="mt-8 p-4 bg-white/10 backdrop-blur-md rounded-md text-center border border-white/10 hover:bg-white/20 transition-all duration-300">
-                <p className="text-white/90 font-medium">Ensure to check flight schedules and book in advance for the best rates!</p>
+                <p className="text-white/90 font-medium text-sm md:text-base">Ensure to check flight schedules and book in advance for the best rates!</p>
               </div>
             </div>
           </div>
