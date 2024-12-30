@@ -3,4 +3,23 @@
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
   }
+}
+
+/* Safari iOS specific styles */
+@supports (-webkit-overflow-scrolling: touch) {
+  input, textarea {
+    /* Prevent zoom on focus */
+    font-size: 16px !important;
+    
+    /* Enhance contrast */
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    
+    /* Improve text visibility */
+    color: #ffffff !important;
+    
+    /* Better placeholder contrast */
+    &::placeholder {
+      color: rgba(229, 231, 235, 0.8) !important;
+    }
+  }
 } 
