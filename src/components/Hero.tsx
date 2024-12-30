@@ -10,14 +10,14 @@ const Hero = () => {
       bottomImage="https://images.unsplash.com/photo-1712055196088-9bc6da4ffbce"
       overlayOpacity="30"
     >
-      <div className="relative h-screen">
-        <div className="relative h-full flex items-center justify-center text-center px-4">
-          <div className="max-w-4xl">
+      <div className="relative min-h-screen">
+        <div className="relative h-full flex items-center justify-center text-center px-4 pt-safe-top">
+          <div className="max-w-4xl mt-[calc(env(safe-area-inset-top)+4rem)] md:mt-20">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="inline-block bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 md:px-6 py-2 mb-6"
+              className="inline-block bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 md:px-6 py-2 mb-6 relative z-10"
             >
               <p className="text-gray-200 md:text-lg text-base tracking-wide md:block hidden">
                 Planning a trip to Nagaland? <span className="font-medium">Your search ends here!</span>
