@@ -24,22 +24,9 @@
   }
 }
 
-/* Add these new styles */
+/* Simpler height fix for mobile browsers */
 @supports (-webkit-touch-callout: none) {
   .min-h-screen {
-    /* Adjust for iOS Safari's navigation bars */
     min-height: -webkit-fill-available;
-  }
-  
-  /* Add padding for iOS Safari top safe area */
-  .pt-safe-top {
-    padding-top: env(safe-area-inset-top);
-  }
-}
-
-/* Ensure content stays below navigation bar on iOS Safari */
-@supports (-webkit-overflow-scrolling: touch) {
-  .mt-\[calc\(env\(safe-area-inset-top\)\+4rem\)\] {
-    margin-top: max(calc(env(safe-area-inset-top) + 4rem), 5rem);
   }
 } 
