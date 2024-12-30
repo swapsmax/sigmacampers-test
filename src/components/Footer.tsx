@@ -43,7 +43,7 @@ const Footer = () => {
         </div>
         
         <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>Copyright © 2024 splore. All rights reserved.</p>
+          <p>Copyright © 2024 Sigma Campers. All rights reserved.</p>
         </div>
       </div>
     </footer>
