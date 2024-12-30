@@ -62,7 +62,9 @@ const Contact = () => {
                   type="text"
                   id="name"
                   name="name"
-                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-white/30 focus:border-white/30 backdrop-blur-sm"
+                  className="w-full px-4 py-2 bg-black/20 border border-white/20 rounded-lg text-white placeholder-gray-400 
+                  focus:ring-white/30 focus:border-white/30 backdrop-blur-sm appearance-none
+                  [-webkit-backdrop-filter:blur(12px)] [backdrop-filter:blur(12px)]"
                   required
                 />
               </div>
@@ -74,7 +76,9 @@ const Contact = () => {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-white/30 focus:border-white/30 backdrop-blur-sm"
+                  className="w-full px-4 py-2 bg-black/20 border border-white/20 rounded-lg text-white placeholder-gray-400 
+                  focus:ring-white/30 focus:border-white/30 backdrop-blur-sm appearance-none
+                  [-webkit-backdrop-filter:blur(12px)] [backdrop-filter:blur(12px)]"
                   required
                 />
               </div>
@@ -88,7 +92,9 @@ const Contact = () => {
                 type="text"
                 id="subject"
                 name="subject"
-                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-white/30 focus:border-white/30 backdrop-blur-sm"
+                className="w-full px-4 py-2 bg-black/20 border border-white/20 rounded-lg text-white placeholder-gray-400 
+                focus:ring-white/30 focus:border-white/30 backdrop-blur-sm appearance-none
+                [-webkit-backdrop-filter:blur(12px)] [backdrop-filter:blur(12px)]"
                 required
               />
             </div>
@@ -101,7 +107,9 @@ const Contact = () => {
                 id="message"
                 name="message"
                 rows={6}
-                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-white/30 focus:border-white/30 backdrop-blur-sm"
+                className="w-full px-4 py-2 bg-black/20 border border-white/20 rounded-lg text-white placeholder-gray-400 
+                focus:ring-white/30 focus:border-white/30 backdrop-blur-sm appearance-none
+                [-webkit-backdrop-filter:blur(12px)] [backdrop-filter:blur(12px)]"
                 required
               ></textarea>
             </div>
